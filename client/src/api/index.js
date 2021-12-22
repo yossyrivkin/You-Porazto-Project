@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-// const API = axios.create({ baseURL: 'https://you-porazto-serve.herokuapp.com' });
-const API = axios.create({ baseURL: 'http://localhost:5000' });
+const mode = process.env.NODE_ENV
+const urlMode = mode === 'development' ? REACT_APP_DEV_URL : mode === 'production' ? REACT_APP_PROD_URL : null
+const API = axios.create({ baseURL: urlMode });
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem('profile')) {
