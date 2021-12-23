@@ -1,8 +1,9 @@
 import axios from 'axios';
 
-const mode = process.env.NODE_ENV
-const urlMode = mode === 'development' ? process.env.REACT_APP_DEV_URL : mode === 'production' ? process.env.REACT_APP_PROD_URL : null
-const API = axios.create({ baseURL: urlMode });
+// const mode = process.env.NODE_ENV
+// const urlMode = mode === 'development' ? process.env.REACT_APP_DEV_URL : mode === 'production' ? process.env.REACT_APP_PROD_URL : null
+
+const API = axios.create({ baseURL: process.env.REACT_APP_PROD_URL });
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem('profile')) {
