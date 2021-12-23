@@ -3,7 +3,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';  // to read .env file  
-import morgan from 'morgan'; // logeer to dev mode
+// import morgan from 'morgan'; // logeer to dev mode
 
 dotenv.config();
 
@@ -12,7 +12,7 @@ import userRouter from './routes/user.js';
 
 const app = express();
 
-app.use(morgan('dev'))
+// app.use(morgan('dev'))
 app.use(express.json({ limit: '30mb', extended: true }))
 app.use(express.urlencoded({ limit: '30mb', extended: true }))
 app.use(cors());

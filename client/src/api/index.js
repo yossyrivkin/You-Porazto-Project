@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const mode = process.env.NODE_ENV
-const urlMode = mode === 'development' ? REACT_APP_DEV_URL : mode === 'production' ? REACT_APP_PROD_URL : null
+const urlMode = mode === 'development' ? process.env.REACT_APP_DEV_URL : mode === 'production' ? process.env.REACT_APP_PROD_URL : null
 const API = axios.create({ baseURL: urlMode });
 
 API.interceptors.request.use((req) => {
