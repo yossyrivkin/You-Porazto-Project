@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import Resizeable from "../Dashboard/Resizeable";
+// import Resizeable from "../Dashboard/Resizeable";
 import StepperComp from "./Stepper";
 import SelectStandLocation from "./SelectStandLocation";
 import LocationPicke from "../../components/SelectLocation/LocationPicke";

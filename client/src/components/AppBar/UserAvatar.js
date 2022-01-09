@@ -16,8 +16,10 @@ function stringToColor(string) {
   for (i = 0; i < 3; i += 1) {
     const value = (hash >> (i * 8)) & 0xff;
     color += `00${value.toString(16)}`.substr(-2);
+    console.log(color);
   }
   /* eslint-enable no-bitwise */
+  console.log(color);
 
   return color;
 }
@@ -25,15 +27,21 @@ function stringToColor(string) {
 function displayAvatar(name, image) {
   const nameProps = {
     sx: {
-     width: 24,
-     height: 24,
+     bgcolor: stringToColor(name),
+     width: 35,
+     height: 35,
+     border: `2px solid gray`,
+
     },
     children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
   }
 
   const imageProps = {
     sx: {
-      bgcolor: stringToColor(name),
+      width: 40,
+      height: 40, 
+      border: `2px solid whitesmoke`,
+
     },
     src: image,
   };

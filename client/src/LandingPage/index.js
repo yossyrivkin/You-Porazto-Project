@@ -8,7 +8,7 @@ import {
   CircularProgress,
 } from '@mui/material'
 
-import { Helmet } from 'react-helmet'
+// import { Helmet } from 'react-helmet'
 import { Scrollbars } from 'react-custom-scrollbars'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { useHistory } from 'react-router-dom'
@@ -66,7 +66,7 @@ const LandingPage = () => {
     <ThemeProvider theme={theme}>
       <React.Fragment>
         <CssBaseline />
-        <Helmet>
+        {/* <Helmet>
           <meta charset="utf-8" />
           <meta
             name="viewport"
@@ -88,7 +88,7 @@ const LandingPage = () => {
           />
 
           <title>You Porazto</title>
-        </Helmet>
+        </Helmet> */}
         <Scrollbars
           ref={(e) => {
             if (e !== null) {
@@ -198,7 +198,12 @@ const LandingPage = () => {
                       fontSize: 50,
                     }}
                   >
-                    YOU PORAZTO!
+                    <span
+                      style={{
+                        color: '#820600'
+                      }}
+                    >YOU </span> 
+                     PORAZTO!
                   </h3>
 
                   <h4

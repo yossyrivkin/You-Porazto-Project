@@ -5,7 +5,8 @@ import React, { lazy } from 'react';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PersonIcon from '@mui/icons-material/Person';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-
+import MapIcon from '@mui/icons-material/Map';
+import EditLocationAltIcon from '@mui/icons-material/EditLocationAlt';
 import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import LanguageIcon from '@mui/icons-material/Language';
@@ -42,7 +43,7 @@ const routes = [
     path: "/create-stand",
     name: "Create Stand",
     rtlName: "צור עמדה",
-    icon: AddLocationAltIcon,
+    icon: EditLocationAltIcon,
     component: CreateStand,
     layout: "/app",
   },
@@ -50,7 +51,7 @@ const routes = [
     path: "/map",
     name: "Map",
     rtlName: "מפה",
-    icon: LocationOnIcon,
+    icon: MapIcon,
     component: Maps,
     layout: "/app",
   },

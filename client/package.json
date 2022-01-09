@@ -31,6 +31,7 @@
     "react-leaflet": "^3.2.1",
     "react-leaflet-fullscreen": "^1.0.1",
     "react-leaflet-fullscreen-plugin": "^1.0.1",
+    "react-leaflet-locate-control": "^0.1.6",
     "react-leaflet-markercluster": "^3.0.0-rc1",
     "react-redux": "^7.2.6",
     "react-resizable": "^3.0.4",

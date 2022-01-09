@@ -13,10 +13,10 @@ export const getStand = (id) => async (dispatch) => {
   }
 };
 
-export const getStands = (page) => async (dispatch) => {
+export const getStands = (page, userLocation) => async (dispatch) => {
   try {
     dispatch({ type: START_LOADING });
-    const { data: { data, currentPage, numberOfPages } } = await api.fetchStands(page);
+    const { data: { data, currentPage, numberOfPages } } = await api.fetchStands(page, userLocation);
     console.log(data);
     dispatch({ type: FETCH_ALL, payload: { data, currentPage, numberOfPages } });
     dispatch({ type: END_LOADING });
@@ -87,9 +87,10 @@ export const likeStand = (id) => async (dispatch) => {
 export const commentStand = (value, id) => async (dispatch) => {
   try {
     const { data } = await api.comment(value, id);
+    console.log(data);
 
     dispatch({ type: COMMENT, payload: data });
-
+    
     return data.comments;
   } catch (error) {
     console.log(error);

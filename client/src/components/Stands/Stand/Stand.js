@@ -3,13 +3,14 @@ import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRound
 import { CardActionArea, Card, CardActions, CardContent, CardMedia, Button, Typography } from '@mui/material/';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';import moment from 'moment';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import ShareIcon from '@mui/icons-material/Share';
 import IconButton from '@mui/material/IconButton';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import ContactsOutlinedIcon from '@mui/icons-material/ContactsOutlined';
 
 import { likeStand, deleteStand } from '../../../actions/stands';
@@ -18,6 +19,7 @@ import useStyles from './styles';
 const Stand = ({ stand, setCurrentId }) => {
   const [likes, setLikes] = useState(stand?.likes);
   const dispatch = useDispatch();
+  const location = useLocation();
   const history = useHistory();
   const classes = useStyles();
   const user = JSON.parse(localStorage.getItem('profile'));
@@ -33,11 +35,26 @@ const Stand = ({ stand, setCurrentId }) => {
     }
   };
 
-  const handleSare = () => {
-    console.log('share' + stand._id);
-    return null
+  const handleShare = () => {
+
+    const fullUrl = window.location.href
+    const targetUrl = `${fullUrl}/${stand._id}`;
+    console.log(targetUrl);
+    if (navigator.share) {
+      navigator
+        .share({
+          title: `${stand.city}, ${stand.street} | You Porazto`,
+          text: `Check out ${stand.street} mivzoim stand on You Porazto App`,
+          url: `${fullUrl}/${stand._id}`,
+        })
+        .then(() => {
+          console.log('Successfully shared.');
+        })
+        .catch(error => {
+          console.error('Something went wrong sharing the blog', error);
+        });
+    }
   }
-  
 
 const Likes = () => {
   if (likes.length > 0) {
@@ -65,9 +82,9 @@ const Likes = () => {
         <Typography variant="h6">{stand.creator}</Typography>
         <Typography variant="body2">{moment(stand.createdAt).fromNow()}</Typography>
       </div>
-      <div className={classes.overlay2}>
+      {/* <div className={classes.overlay2}>
         <Button style={{ color: 'white' }} size="small" onClick={handleOpenCard}><MoreHorizIcon fontSize="default" /></Button>
-      </div>
+      </div> */}
       <div className={classes.details}>
         <Typography variant="body2" sx={{m: 1}} color="textSecondary" component="h2">{stand.city}</Typography>
       </div>
@@ -92,7 +109,7 @@ const Likes = () => {
       <IconButton aria-label="add to favorites" size="small" color="primary" disabled={!user?.result} onClick={handleLike}>
           <Likes />
         </IconButton>
-      <IconButton aria-label="add to favorites" size="small" color="primary" onClick={handleSare}>
+      <IconButton aria-label="add to favorites" size="small" color="primary" onClick={handleShare}>
           <ShareIcon/>
         </IconButton>
       </CardActions>

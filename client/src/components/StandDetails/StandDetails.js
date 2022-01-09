@@ -147,7 +147,7 @@ const Stand = () => {
           />
         </Box>
       </Box>
-      {!!recommendedStands.length && (
+      {/* {!!recommendedStands.length && (
         <Box
           sx={{
             borderRadius: "20px",
@@ -190,7 +190,7 @@ const Stand = () => {
             )}
           </Box>
         </Box>
-      )}
+      )} */}
     </Paper>
   );
 };

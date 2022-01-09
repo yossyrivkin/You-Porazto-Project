@@ -93,9 +93,9 @@ const Sidebar = ({
           position: "unset",
         }}
       >
-        {routes.map((route, index) => {
+        {routes.map((route) => {
           const itemColor = "#ffffffb0";
-          const choiseItemColor = "#ffffff";
+          const choiseItemColor = "#fff";
           const isActivRoute = (routeName) => {
             return location.pathname === routeName;
           };
@@ -104,6 +104,7 @@ const Sidebar = ({
             <NavLink
               to={route.layout + route.path}
               key={route.path}
+              onClick={handleDrawerToggle}
               style={{
                 position: "relative",
                 display: "block",
@@ -124,25 +125,39 @@ const Sidebar = ({
                   backgroundColor: "transparent",
                   "&:hover,&:focus,&:visited": {
                     backgroundColor: "#ffffff80",
+                    py: '20px', 
+                    cursor: 'pointer',
+
+                    // fontWeight: '900',
+                    // fontSize: '1.5rem'
                   },
+                  // "&:hover .text ": {
+                  //   fontWeight: '900',
+                  //   fontSize: '1.5rem'
+                  // },  
+                  // "&:last-child": {
+                  //   borderRight: "solid 1px #cccccc"
+                  // },
                 }}
               >
                 <ListItemIcon>
                   <route.icon
+                    className="icon"
                     sx={{
                       width: "24px",
                       height: "30px",
-                      fontSize: "24px",
+                      fontSize: "inherit",
                       lineHeight: "30px",
                       float: "left",
                       marginRight: "15px",
                       textAlign: "center",
                       verticalAlign: "middle",
-                      color: "#ffffffb0",
+                      color: "#fff",
                     }}
                   />
                 </ListItemIcon>
                 <ListItemText
+                  className="text"
                   primary={route.name}
                   sx={{
                     margin: "0",
@@ -174,7 +189,7 @@ const Sidebar = ({
         top: "0",
         height: "100vh",
       }}
-      aria-label="mailbox folders"
+      aria-label="sidear-box"
     >
       {/* The implementation bulid with js to avoid SEO duplication of links. */}
       <Drawer
@@ -244,6 +259,7 @@ const Sidebar = ({
           <Link
             href="/"
             sx={{
+              color: '#FEBD69',
               textTransform: "uppercase",
               padding: "5px 0",
               display: "block",
@@ -252,6 +268,7 @@ const Sidebar = ({
               fontWeight: "400",
               lineHeight: "30px",
               textDecoration: "none",
+              transition: 'all 1s',
               backgroundColor: "transparent",
               "&:hover": {
                 color: "white",
@@ -279,7 +296,12 @@ const Sidebar = ({
                 }}
               />
             </Box>
-            {logoText}
+            <span
+            style={{
+              color: '#820600'
+            }}
+            >you </span>
+            Porazto
           </Link>
         </Box>
 

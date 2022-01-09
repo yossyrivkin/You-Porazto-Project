@@ -11,7 +11,7 @@ const StandMap = ({ location }) => {
   return (
     <>
       <Paper sx={{
-          width: '80%',
+          // width: ,
           alignContent: 'senter'
       }}>
         <MapContainer

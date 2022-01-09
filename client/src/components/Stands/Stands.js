@@ -15,7 +15,7 @@ const Stands = ({ setCurrentId }) => {
   return (
     <>
       <Toolbar />
-      {!stands.length ? <CircularProgress /> : (
+      {!stands.length ? null : (
       <Grid
         className={classes.container}
         container

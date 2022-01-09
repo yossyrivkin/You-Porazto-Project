@@ -15,7 +15,7 @@ const Dashboard = () => {
         <Route path="/app/stands" exact component={AllStands} />
         <Route path="/app/stands/search" exact component={AllStands} />
         <Route path="/app/stands/:id" exact component={StandDetails} />
-        <Route path={['/app/stands/creators/:name', '/app/stands/tags/:name']} component={CreatorOrTag} />
+        {/* <Route path={['/app/stands/creators/:name', '/app/stands/tags/:name']} component={CreatorOrTag} /> */}
       </Switch>
     </>
   )

@@ -18,7 +18,14 @@ import { useSelector } from "react-redux";
 // import theme from './theme'
 export default function App() {
 
+
   const { mode } = useSelector((state) => state.userExp);
+  // const state = useSelector((state) => state);
+
+  // useEffect(() => {
+  //   console.log(state);
+  // }, [])
+
 
   const theme = React.useMemo(() => createTheme({
         palette: {
@@ -30,6 +37,11 @@ export default function App() {
           },
           mode,
         },
+        // direction: 'rtl',
+        typography: {
+          fontFamily: 'Roboto, Assistant',
+        },
+      
         spacing: 8
       }),
     [mode],
@@ -42,11 +54,14 @@ export default function App() {
       <Router>
         <Switch>
           <Route exact path="/" component={LandingPage} />
-          <Route path="/app" component={AppMain} />
+          <Route 
+            path="/app" 
+            component={() => user? <AppMain /> : <Redirect to="/auth" /> }
+             />
           <Route
             path="/auth"
             exact
-            component={() => (!user ? <Auth /> : <Redirect to="/app" />)}
+            component={Auth}
           />
           <Route path="/posts/search" exact component={AppMain} />
         </Switch>

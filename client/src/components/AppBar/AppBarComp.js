@@ -14,13 +14,17 @@ import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
+import Zoom from "@mui/material/Zoom";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-import { Link, useHistory, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import decode from 'jwt-decode';
-import * as actionType from '../../constants/actionTypes';
+import { Link, useHistory, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getStandsBySearch } from '../../actions/stands';
+
+import decode from "jwt-decode";
+import * as actionType from "../../constants/actionTypes";
 
 import { styled, alpha } from "@mui/material/styles";
 
@@ -33,10 +37,12 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { Button, Icon } from "@mui/material";
-
-import UserAvatar from './UserAvatar'
-
-const userImage = null
+import UserAvatar from "./UserAvatar";
+import { display } from "@mui/system";
+import { NoEncryption } from "@mui/icons-material";
+import PersonAdd from "@mui/icons-material/PersonAdd";
+import Settings from "@mui/icons-material/Settings";
+import Logout from "@mui/icons-material/Logout";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -55,13 +61,13 @@ const Search = styled("div")(({ theme }) => ({
 }));
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: '0, 2',
+  padding: theme.spacing(0, 2),
   height: "100%",
   position: "absolute",
   pointerEvents: "none",
   display: "flex",
   alignItems: "center",
-  // justifyContent: "center",
+  justifyContent: "center",
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -74,6 +80,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     width: "100%",
     [theme.breakpoints.up("md")]: {
       width: "20ch",
+      "&:focus": {
+        width: "35ch",
+      },
     },
   },
 }));
@@ -82,12 +91,39 @@ const AppBarComp = ({ handleDrawerToggle, drawerWidth, user, setUser }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
-
+  const [search, setSearch] = useState('');
   
+  const searchStand = () => {
+    if (search.trim()) {
+      dispatch(getStandsBySearch({ search }));
+      history.push(`/app/stands/search?searchQuery=${search || 'none'}`);
+    }  
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.keyCode === 13) {
+      e.preventDefault()  
+      searchStand();
+    }
+  };
+
+  const settings = ["Profile", "Account", "Dashboard", "Logout"];
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const open = Boolean(anchorElUser);
+
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  const userImage = user.result.imageUrl;
+
   const logout = () => {
     dispatch({ type: actionType.LOGOUT });
 
-    history.push('/auth');
+    history.push("/auth");
 
     setUser(null);
   };
@@ -101,7 +137,7 @@ const AppBarComp = ({ handleDrawerToggle, drawerWidth, user, setUser }) => {
       if (decodedToken.exp * 1000 < new Date().getTime()) logout();
     }
 
-    setUser(JSON.parse(localStorage.getItem('profile')));
+    setUser(JSON.parse(localStorage.getItem("profile")));
   }, [location]);
 
   return (
@@ -111,6 +147,7 @@ const AppBarComp = ({ handleDrawerToggle, drawerWidth, user, setUser }) => {
         position="fixed"
         // position="sticky"
         sx={{
+          height: { xs: "55px", sm: "65px" },
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
         }}
@@ -121,12 +158,20 @@ const AppBarComp = ({ handleDrawerToggle, drawerWidth, user, setUser }) => {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
+            sx={{ display: { sm: "none" } }}
           >
             <MenuIcon />
           </IconButton>
           <IconButton
-            onClick={()=> history.push('/')}  
+            sx={{
+              ml: 0,
+              mr: 0,
+              "&:hover": {
+                width: 30,
+                height: 40,
+              },
+            }}
+            onClick={() => history.push("/")}
           >
             <img src="/logo-up.png" height={24} width={18}></img>
           </IconButton>
@@ -134,7 +179,15 @@ const AppBarComp = ({ handleDrawerToggle, drawerWidth, user, setUser }) => {
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: "none", sm: "block" }, flexGrow: 1}}
+            sx={{
+              display: { xs: "none", sm: "block" },
+              flexGrow: 1,
+              "&:hover": {
+                fontSize: "1.2rem",
+                cursor: "pointer",
+              },
+            }}
+            onClick={() => history.push("/")}
           >
             You Porazto!
           </Typography>
@@ -145,60 +198,155 @@ const AppBarComp = ({ handleDrawerToggle, drawerWidth, user, setUser }) => {
                   <SearchIcon />
                 </SearchIconWrapper>
                 <StyledInputBase
+                  onKeyDown={handleKeyPress}
+                  value={search} 
+                  onChange={(e) => setSearch(e.target.value)}
+                  name="search" 
+                  id="search"
+                  label="Search Stands"
                   placeholder="Search…"
                   inputProps={{ "aria-label": "search" }}
                 />
               </Search>
               <Box sx={{ flexGrow: 1 }} />
               <Box sx={{ display: { xs: "none", md: "flex" } }}>
-                <IconButton
-                  size="large"
-                  aria-label="show 4 new mails"
-                  color="inherit"
+                <Tooltip
+                  title="Mails | Feature in development, will be released in the following version"
+                  TransitionComponent={Zoom}
+                  arrow
+                  sx={{
+                    fontSize: '3.5rem'
+                  }}
                 >
-                  <Badge badgeContent={4} color="error">
-                    <MailIcon />
-                  </Badge>
-                </IconButton>
-                <IconButton
-                  size="large"
-                  aria-label="show 17 new notifications"
-                  color="inherit"
+                  <span>
+                    <IconButton
+                      disabled
+                      size="large"
+                      aria-label="show 4 new mails"
+                      color="inherit"
+                    >
+                      <Badge badgeContent={0} color="error">
+                        <MailIcon />
+                      </Badge>
+                    </IconButton>
+                  </span>
+                </Tooltip>
+                <Tooltip
+                  title="Notifications | Feature in development, will be released in the following version"
+                  TransitionComponent={Zoom}
+                  arrow
                 >
-                  <Badge badgeContent={17} color="error">
-                    <NotificationsIcon />
-                  </Badge>
-                </IconButton>
-                <IconButton
-                  size="large"
-                  edge="end"
-                  aria-label="account of current user"
-                  aria-controls={"primary-search-account-menu"}
-                  aria-haspopup="true"
-                  color="inherit"
-                >
-                {
-                  user ? <UserAvatar userName={user.result.name} userImage={userImage} /> 
-                  : <AccountCircle />
-                }
-                </IconButton>
+                  <span>
+                    <IconButton
+                      disabled
+                      size="large"
+                      aria-label="show new notifications"
+                      color="inherit"
+                    >
+                      <Badge badgeContent={0} color="error">
+                        <NotificationsIcon />
+                      </Badge>
+                    </IconButton>
+                  </span>
+                </Tooltip>
               </Box>
-              <Box sx={{ display: { xs: "flex", md: "none" } }}>
-                <IconButton
-                  size="large"
-                  aria-label="show more"
-                  aria-controls={"primary-search-account-menu-mobile"}
-                  aria-haspopup="true"
-                  color="inherit"
-                >
-                  <MoreIcon />
-                </IconButton>
-              </Box>
-              <Button variant="contained" color="secondary" onClick={logout}>Logout</Button>
+              <Button
+                sx={{
+                  my: 2,
+                  display: { xs: "none", sm: "block" },
+                }}
+                color="inherit"
+                onClick={logout}
+              >
+                Logout
+              </Button>
             </>
           ) : (
-            <Button onClick={() => history.push('/auth')} color="inherit">Login</Button>
+            <Button
+              sx={{
+                my: 2,
+              }}
+              onClick={() => history.push("/auth")}
+              color="inherit"
+            >
+              Login
+            </Button>
           )}
+          <Tooltip title="User settings">
+            <IconButton
+              onClick={handleOpenUserMenu}
+              size="small"
+              sx={{ ml: 2 }}
+              aria-controls={open ? "account-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+            >
+              {user ? (
+                <UserAvatar userName={user.result.name} userImage={userImage} />
+              ) : (
+                <AccountCircle />
+              )}
+            </IconButton>
+          </Tooltip>
+          <Menu
+            anchorEl={anchorElUser}
+            id="account-menu"
+            open={open}
+            onClose={handleCloseUserMenu}
+            onClick={handleCloseUserMenu}
+            PaperProps={{
+              elevation: 0,
+              sx: {
+                overflow: "visible",
+                filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                mt: 1.5,
+                "& .MuiAvatar-root": {
+                  width: 32,
+                  height: 32,
+                  ml: -0.5,
+                  mr: 1,
+                },
+                "&:before": {
+                  content: '""',
+                  display: "block",
+                  position: "absolute",
+                  top: 0,
+                  right: 14,
+                  width: 10,
+                  height: 10,
+                  bgcolor: "background.paper",
+                  transform: "translateY(-50%) rotate(45deg)",
+                  zIndex: 0,
+                },
+              },
+            }}
+            transformOrigin={{ horizontal: "right", vertical: "top" }}
+            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+          >
+            <MenuItem>
+              <UserAvatar userName={user.result.name} userImage={userImage} />
+              {user.result.name}
+            </MenuItem>
+            <Divider />
+            <MenuItem onClick={() => history.push("/app/user-profile")}>
+              <ListItemIcon>
+                <AccountCircle fontSize="small" />
+              </ListItemIcon>
+              My Profile
+            </MenuItem>
+            {/* <MenuItem>
+              <ListItemIcon>
+                <Settings fontSize="small" />
+              </ListItemIcon>
+              Settings
+            </MenuItem> */}
+            <MenuItem onClick={logout}>
+              <ListItemIcon>
+                <Logout fontSize="small" />
+              </ListItemIcon>
+              Logout
+            </MenuItem>
+          </Menu>
         </Toolbar>
       </AppBar>
     </>

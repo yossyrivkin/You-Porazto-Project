@@ -23,6 +23,7 @@ import { AUTH } from "../../constants/actionTypes";
 import useStyles from "./styles";
 import Input from "./Input";
 import { typography } from "@mui/system";
+import { pink } from "@mui/material/colors";
 
 const initialState = {
   firstName: "",
@@ -64,12 +65,12 @@ const SignUp = () => {
   };
 
   const googleSuccess = async (res) => {
+    console.log(res);
     const result = res?.profileObj;
     const token = res?.tokenId;
 
     try {
       dispatch({ type: AUTH, data: { result, token } });
-
       history.push("/app");
     } catch (error) {
       console.log(error);
@@ -88,7 +89,7 @@ const SignUp = () => {
         <Avatar
           sx={{
             margin: "8px",
-            bgcolor: "secondary",
+            bgcolor: 'primary.main',
           }}
         >
           <LockOutlinedIcon />

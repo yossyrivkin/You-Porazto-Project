@@ -41,8 +41,8 @@ const ResultsLayer = ({
   const [position, setPosition] = useState(null);
   const markerRef = useRef(null);
 
-  return (
-    <MarkerClusterGroup>
+  return (<>
+    {/* <MarkerClusterGroup> */}
       {results &&
         results.map((locate, id) => {
           const { road, town, country, city, state, village, zip } =
@@ -94,7 +94,8 @@ const ResultsLayer = ({
             </Marker>
           );
         })}
-    </MarkerClusterGroup>
+    {/* </MarkerClusterGroup> */}
+    </>
   );
 };
 

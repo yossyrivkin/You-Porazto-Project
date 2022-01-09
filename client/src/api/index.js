@@ -3,7 +3,8 @@ import axios from 'axios';
 // const mode = process.env.NODE_ENV
 // const urlMode = mode === 'development' ? process.env.REACT_APP_DEV_URL : mode === 'production' ? process.env.REACT_APP_PROD_URL : null
 
-const API = axios.create({ baseURL: "https://mern-n1.herokuapp.com" });
+const API = axios.create({ baseURL: "http://localhost:5000" });
+// const API = axios.create({ baseURL: "https://mern-n1.herokuapp.com" });
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem('profile')) {
@@ -14,7 +15,7 @@ API.interceptors.request.use((req) => {
 });
 
 export const fetchStand = (id) => API.get(`/stands/${id}`);
-export const fetchStands = (page) => API.get(`/stands?page=${page}`);
+export const fetchStands = (page, userLocation) => API.get(`/stands?page=${page}&lat=${userLocation.lat}&lng=${userLocation.lng}`);
 export const fetchStandsByCreator = (name) => API.get(`/stands/creator?name=${name}`);
 export const fetchStandsBySearch = (searchQuery) => API.get(`/stands/search?searchQuery=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`);
 export const createStand = (newStand) => API.post('/stands', newStand);

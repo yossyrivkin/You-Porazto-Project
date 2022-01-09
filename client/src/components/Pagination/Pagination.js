@@ -19,10 +19,24 @@ const Paginate = ({ page }) => {
 
   const classes = makeStyles();
 
+  const getUserLocation = new Promise(function(resolve, reject) {
+    let lat, lng;
+    navigator.geolocation.getCurrentPosition(function(pos){
+        lat = pos.coords.latitude
+        lng = pos.coords.longitude
+        resolve({lat, lng});
+    });
+  });
+
   useEffect(() => {
-    if (page) {
-      dispatch(getStands(page));
+    const getStandByLocation = async () => {
+      const userLocation = await getUserLocation;
+      console.log(userLocation)
+      if (page) {
+        dispatch(getStands(page, userLocation));
+      }
     }
+    getStandByLocation()
   }, [dispatch, page]);
 
   return (
