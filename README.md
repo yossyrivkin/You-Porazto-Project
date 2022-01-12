@@ -9,6 +9,7 @@ In addition, you can initiate a new position of activity to spread Judaism and u
 ## Code contribution
 
 The project was written in MERN Stack using leaflet and react-leaflet, the client side is managed by a redox store, including rudux=persistent for a better and stable user experience
+
 The server side is written in node and express, including user authentication using the jwt directory.
 
 ## in development
