@@ -171,7 +171,7 @@ const SignUp = () => {
             <Chip label="OR" />
           </Divider>
           <GoogleLogin
-            clientId = {process.env.REACT_APP_GOOGLE_CLIENT_ID}
+            clientId = {process.env.GOOGLE_CLIENT_ID || process.env.REACT_APP_GOOGLE_CLIENT_ID}
             render={(renderProps) => (
               <Button
                 sx={{ m: 0.5, mb: 2 }}
