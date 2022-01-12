@@ -1,6 +1,9 @@
 # You Porazto Project
 A map-based social project for sharing positions for spreading Judaism
 
+![image](https://user-images.githubusercontent.com/59019920/149241432-4aa51b50-5774-42fb-bbb1-34305077f1da.png)
+
+
 ## Joining the project
 After registering via email or Google account, you can find the social activity point of the Chabad closest to you, contact the person in charge and join the activity
 
