@@ -18,18 +18,22 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-function LocationPicke({ position, positionName, setPosition }) {
+function LocationPicke({
+  setStandData,
+  standData,
+  positionName,
+}) {
   const [address, setAddress] = useState("");
   const [results, setResults] = useState(null);
   const [selectedResults, setSelectedResults] = useState(0);
   const [loading, setloading] = useState(false);
   const [flyTriger, setflyTriger] = useState(false);
   const [editLocation, setEditLocation] = useState(null);
-  
+
   // TODO: FIX TEH TIME OUT FETCH & TO INTEGRATE
-  
+
   // const [searchNow, setSearchNow] = useState(false)
-  
+
   // // time out to fetch results
   // const isFirstRender = useRef(true);
   // const WordCount = (str) => {
@@ -64,11 +68,12 @@ function LocationPicke({ position, positionName, setPosition }) {
     setTimeout(() => {
       setloading(false);
     }, 2500);
-  }
+  };
 
   const searchApi = (query) => {
     console.log(query);
-    const apiNumination = "https://nominatim.openstreetmap.org/search?format=json&polygon=1&addressdetails=1&q="
+    const apiNumination =
+      "https://nominatim.openstreetmap.org/search?format=json&polygon=1&addressdetails=1&q=";
     fetch(apiNumination + query)
       .then((result) => result.json())
       .then((parsedResult) => {
@@ -97,8 +102,8 @@ function LocationPicke({ position, positionName, setPosition }) {
           lng: lon,
         };
         console.log(initPosition);
-        setPosition(initPosition);
-        console.log(position);
+        setStandData({ ...standData, location: initPosition })
+        console.log(standData.location);
       }
     }
   }, [results, selectedResults]);
@@ -140,7 +145,7 @@ function LocationPicke({ position, positionName, setPosition }) {
                 setSelectedResults={setSelectedResults}
                 setEditLocation={setEditLocation}
               />
-              
+
               <Box
                 sx={{
                   justifyContent: "center",
@@ -149,10 +154,15 @@ function LocationPicke({ position, positionName, setPosition }) {
                   position: "absolute",
                   zIndex: "999",
                   top: 10,
-                  left:'20%', 
-               }}
+                  left: "20%",
+                }}
               >
-                <SearchInput handleSearch={handleSearch} loading={loading} address={address} setAddress={setAddress} />
+                <SearchInput
+                  handleSearch={handleSearch}
+                  loading={loading}
+                  address={address}
+                  setAddress={setAddress}
+                />
               </Box>
             </Item>
           </Grid>
@@ -194,8 +204,8 @@ function LocationPicke({ position, positionName, setPosition }) {
           setEditLocation={setEditLocation}
           selectedResults={selectedResults}
           results={results}
-          position={position}
-          setPosition={setPosition}
+          standData={standData}
+          setStandData={setStandData}
         />
       )}
     </>

@@ -28,6 +28,10 @@ const Paginate = ({ page }) => {
     });
   });
 
+// *****************************************************************
+// *******TODO: WRITE SERVER SIDE FUNCTIONAL SORTING BY COORDS*****
+// *****************************************************************
+
   useEffect(() => {
     const getStandByLocation = async () => {
       const userLocation = await getUserLocation;

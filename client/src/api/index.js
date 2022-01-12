@@ -16,7 +16,8 @@ API.interceptors.request.use((req) => {
 
 export const fetchStand = (id) => API.get(`/stands/${id}`);
 export const fetchStands = (page, userLocation) => API.get(`/stands?page=${page}&lat=${userLocation.lat}&lng=${userLocation.lng}`);
-export const fetchStandsByCreator = (name) => API.get(`/stands/creator?name=${name}`);
+export const fetchStandsByCreator = () => API.get(`/stands/creator`);
+// export const fetchStandsByCreator = (name) => API.get(`/stands/creator?name=${name}`);
 export const fetchStandsBySearch = (searchQuery) => API.get(`/stands/search?searchQuery=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`);
 export const createStand = (newStand) => API.post('/stands', newStand);
 export const likeStand = (id) => API.patch(`/stands/${id}/likeStand`);

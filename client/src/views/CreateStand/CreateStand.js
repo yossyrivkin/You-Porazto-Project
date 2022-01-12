@@ -20,22 +20,22 @@ const initialDataState = {
   lastName: "",
   phone: "",
   selectedFile: "",
-  location: {lat: null, lng: null},
-}
+  location: { lat: null, lng: null },
+};
 
 const CreateStand = () => {
   const [tab, setTab] = useState(0);
   const [step, setstep] = useState(0);
-  const {activeStep, setActiveStep } = useContext(StepsContext);
+  const { activeStep, setActiveStep } = useContext(StepsContext);
   const [standData, setStandData] = useState(initialDataState);
   const [position, setPosition] = useState({
     lat: null,
     lng: null,
   });
   const [positionName, setPositionName] = useState([]);
-  const [submitScreen, setSubmitScreen] = useState(false)
+  const [submitScreen, setSubmitScreen] = useState(false);
   const dispatch = useDispatch();
-  const history = useHistory()
+  const history = useHistory();
 
   useEffect(() => {
     if (position.lat === null) {
@@ -76,11 +76,11 @@ const CreateStand = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitScreen(true)
+    setSubmitScreen(true);
     dispatch(createStand(standData));
     console.log(standData);
     setTimeout(() => {
-      history.push('/app/dashboard')
+      history.push("/app/dashboard");
     }, 4000);
     setActiveStep(0);
   };
@@ -103,6 +103,8 @@ const CreateStand = () => {
         {/* {activeStep === 0 && <Resizeable/>}  */}
         {activeStep === 0 && (
           <LocationPicke
+            standData={standData}
+            setStandData={setStandData}
             position={position}
             setPosition={setPosition}
             positionName={positionName}
@@ -125,15 +127,14 @@ const CreateStand = () => {
           />
         )}
       </StepperComp>
-      {<Backdrop
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={submitScreen}
-      >
-        {
-          
-        }
-        <CircularProgress color="inherit" />
-      </Backdrop>
+      {
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={submitScreen}
+        >
+          {}
+          <CircularProgress color="inherit" />
+        </Backdrop>
       }
     </>
   );

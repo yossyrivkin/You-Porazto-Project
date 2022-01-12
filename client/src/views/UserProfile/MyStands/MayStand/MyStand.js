@@ -17,14 +17,17 @@ import { useDispatch } from "react-redux";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ShareIcon from "@mui/icons-material/Share";
+import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 import { useHistory, useLocation } from "react-router-dom";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 
-import { likeStand, deleteStand } from "../../../actions/stands";
+import { likeStand, deleteStand } from "../../../../actions/stands";
 import useStyles from "./styles";
+import ConfirmationDialog from "../Edit/EditAgreeDialog";
+import EditAgreeDialog from "../Edit/EditAgreeDialog";
 
-const Stand = ({ stand, setCurrentId }) => {
+const MyStand = ({ stand, setCurrentId }) => {
   const [likes, setLikes] = useState(stand?.likes);
   const dispatch = useDispatch();
   const location = useLocation();
@@ -33,16 +36,26 @@ const Stand = ({ stand, setCurrentId }) => {
   const user = JSON.parse(localStorage.getItem("profile"));
   const userId = user?.result.googleId || user?.result?._id;
   const hasLikedStand = stand.likes.find((like) => like === userId);
+  const [openDialogEdit, setOpenDialogEdit] = React.useState(false);
+  const [openDialogDelete, setOpenDialogDelete] = React.useState(false);
 
-  const handleLike = async () => {
-    dispatch(likeStand(stand._id));
-    if (hasLikedStand) {
-      setLikes(stand.likes.filter((id) => id !== userId));
-    } else {
-      setLikes([...stand.likes, userId]);
-    }
+  const handleContinueEdit = () => {
+    setOpenDialogEdit(false);
+    history.push(`/app/stands/update/${stand._id}`);
   };
-
+  const handleContinueDelete = () => {
+    setOpenDialogDelete(false);
+    dispatch(deleteStand(stand._id))
+    history.push(`/app/stands`);
+  };
+  const deleteDialogContent = {
+    title: `Are you sure you want to delete  "${stand.city}, ${stand.street}"?`,
+    desc: `Stand "${stand.city}, ${stand.street}" and all of its content and media will be permanently deleted from the repository`,
+  };
+  const editDialogContent = {
+    title: `Do you want to edit the stand "${stand.city}, ${stand.street}"?`,
+    desc: "The changed stand details will be lost from memory and will be replaced by new data",
+  };
   const handleShare = () => {
     const fullUrl = window.location.href;
     const targetUrl = `${fullUrl}/${stand._id}`;
@@ -63,31 +76,6 @@ const Stand = ({ stand, setCurrentId }) => {
     }
   };
 
-  const Likes = () => {
-    if (likes.length > 0) {
-      return likes.find((like) => like === userId) ? (
-        <>
-          <FavoriteIcon fontSize="small" />
-          &nbsp;
-          {likes.length > 2
-            ? `You and ${likes.length - 1} others`
-            : `${likes.length} like${likes.length > 1 ? "s" : ""}`}
-        </>
-      ) : (
-        <>
-          <FavoriteBorderOutlinedIcon fontSize="small" />
-          &nbsp;{likes.length} {likes.length === 1 ? "Like" : "Likes"}
-        </>
-      );
-    }
-    return (
-      <>
-        <FavoriteBorderOutlinedIcon fontSize="small" />
-        &nbsp;Like
-      </>
-    );
-  };
-
   const handleOpenCard = () => {
     // setCurrentId(stand._id)
     history.push(`/app/stands/${stand._id}`);
@@ -105,11 +93,13 @@ const Stand = ({ stand, setCurrentId }) => {
           title={stand.title}
         />
         <div className={classes.overlay}>
-          {/* <Typography variant="h6">{stand.creator}</Typography> */}
           <Typography variant="body2">
             {moment(stand.createdAt).fromNow()}
           </Typography>
         </div>
+        {/* <div className={classes.overlay2}>
+        <Button style={{ color: 'white' }} size="small" onClick={handleOpenCard}><MoreHorizIcon fontSize="default" /></Button>
+      </div> */}
         <div className={classes.details}>
           <Typography
             variant="body2"
@@ -147,13 +137,35 @@ const Stand = ({ stand, setCurrentId }) => {
           aria-label="add to favorites"
           size="small"
           color="primary"
-          disabled={!user?.result}
-          onClick={handleLike}
+          onClick={() => setOpenDialogEdit(true)}
         >
-          <Likes />
+          <EditIcon />
         </IconButton>
+
+        <EditAgreeDialog
+          dialogContent={editDialogContent}
+          open={openDialogEdit}
+          setOpen={setOpenDialogEdit}
+          handleContinue={handleContinueEdit}
+        />
+        <EditAgreeDialog
+          dialogContent={deleteDialogContent}
+          open={openDialogDelete}
+          setOpen={setOpenDialogDelete}
+          handleContinue={handleContinueDelete}
+        />
+
         <IconButton
-          aria-label="add to favorites"
+          aria-label="delete"
+          size="small"
+          color="primary"
+          onClick={() => setOpenDialogDelete(true)}
+        >
+          <DeleteIcon />
+        </IconButton>
+
+        <IconButton
+          aria-label="share"
           size="small"
           color="primary"
           onClick={handleShare}
@@ -165,4 +177,4 @@ const Stand = ({ stand, setCurrentId }) => {
   );
 };
 
-export default Stand;
+export default MyStand;

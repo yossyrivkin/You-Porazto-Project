@@ -8,6 +8,11 @@ import {
       } from "react-leaflet";
 
 const StandMap = ({ location }) => {
+
+  const locationObj = {
+    lat: location.coordinates[1],
+    lng: location.coordinates[0],
+  }
   return (
     <>
       <Paper sx={{
@@ -16,7 +21,7 @@ const StandMap = ({ location }) => {
       }}>
         <MapContainer
           className="map-cont"
-          center={location}
+          center={locationObj}
           zoom={18}
           scrollWheelZoom={true}
         >
@@ -25,7 +30,7 @@ const StandMap = ({ location }) => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <Marker
-            position={location}
+            position={locationObj}
           >
           </Marker>{" "}
         </MapContainer>

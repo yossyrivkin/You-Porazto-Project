@@ -10,6 +10,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import AppMain from "./layouts/AppMain";
+import PageNotFound from "./PageNotFound";
 import { green, purple, red } from "@mui/material/colors";
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -64,6 +65,8 @@ export default function App() {
             component={Auth}
           />
           <Route path="/posts/search" exact component={AppMain} />
+          <Route path="/posts/search" exact component={AppMain} />
+          <Route component={PageNotFound} />
         </Switch>
       </Router>
     </ThemeProvider>

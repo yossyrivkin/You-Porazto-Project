@@ -124,8 +124,6 @@ const AppBarComp = ({ handleDrawerToggle, drawerWidth, user, setUser }) => {
     dispatch({ type: actionType.LOGOUT });
 
     history.push("/auth");
-
-    setUser(null);
   };
 
   useEffect(() => {

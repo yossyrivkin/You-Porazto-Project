@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Avatar,
@@ -50,6 +50,11 @@ const SignUp = () => {
   };
 
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    localStorage.clear();
+    
+  }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault();

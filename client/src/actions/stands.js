@@ -25,10 +25,10 @@ export const getStands = (page, userLocation) => async (dispatch) => {
   }
 };
 
-export const getStandsByCreator = (name) => async (dispatch) => {
+export const getStandsByCreator = () => async (dispatch) => {
   try {
     dispatch({ type: START_LOADING });
-    const { data: { data } } = await api.fetchStandsByCreator(name);
+    const { data: { data } } = await api.fetchStandsByCreator();
 
     dispatch({ type: FETCH_BY_CREATOR, payload: { data } });
     dispatch({ type: END_LOADING });

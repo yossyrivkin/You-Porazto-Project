@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import Fullscreen from "react-leaflet-fullscreen-plugin";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import L from "leaflet";
-import LocateControl from "react-leaflet-locate-control";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 

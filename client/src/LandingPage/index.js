@@ -1,4 +1,4 @@
-import React, { useState, lazy, Suspense } from 'react'
+import React, { useState, lazy, Suspense } from "react";
 import {
   AppBar,
   CssBaseline,
@@ -6,61 +6,62 @@ import {
   Toolbar,
   Button,
   CircularProgress,
-} from '@mui/material'
+  Typography,
+} from "@mui/material";
 
 // import { Helmet } from 'react-helmet'
-import { Scrollbars } from 'react-custom-scrollbars'
-import { ThemeProvider, createTheme } from '@mui/material/styles'
-import { useHistory } from 'react-router-dom'
+import { Scrollbars } from "react-custom-scrollbars";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { useHistory } from "react-router-dom";
 // import { useTheme as useAppTheme } from 'material-ui-shell/lib/providers/Theme'
 // import d from 'final-form-arrays'
-const PageContent = lazy(() => import('./PageContent'))
-const Footer = lazy(() => import('./Footer'))
+const PageContent = lazy(() => import("./PageContent"));
+const Footer = lazy(() => import("./Footer"));
 // const ResponsiveMenu = lazy(() =>
 //   import('rmw-shell/lib/containers/ResponsiveMenu')
 // )
 
 const theme = createTheme({
   palette: {
-    primary: { main: '#242424' },
+    primary: { main: "#242424" },
     secondary: {
-      main: '#c62828',
+      main: "#c62828",
     },
   },
-})
+});
 
 const LandingPage = () => {
-  const [scrollbar, setScrollbar] = useState(null)
-  const [transparent, setTransparent] = useState(true)
-  const [scrolled, setScrolled] = useState(false)
-  const [components, setComponents] = useState(null)
-  const [top, setTop] = useState(null)
-  const history = useHistory()
-  const isRTL = false
+  const [scrollbar, setScrollbar] = useState(null);
+  const [transparent, setTransparent] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
+  const [components, setComponents] = useState(null);
+  const [top, setTop] = useState(null);
+  const history = useHistory();
+  const isRTL = false;
 
   const scrollTo = (e) => {
     e &&
       e.scrollIntoView({
-        behavior: 'smooth',
+        behavior: "smooth",
         alignToTop: true,
-      })
-  }
+      });
+  };
 
   const sections = [
     {
-      name: 'start',
-      onClick: () => history.push('/dashboard'),
+      name: "start",
+      onClick: () => history.push("/dashboard"),
     },
     {
-      name: 'components',
+      name: "components",
       onClick: () => {
-        setScrolled(true)
+        setScrolled(true);
         setTimeout(() => {
-          scrollTo(components)
-        }, 500)
+          scrollTo(components);
+        }, 500);
       },
     },
-  ]
+  ];
 
   return (
     <ThemeProvider theme={theme}>
@@ -92,7 +93,7 @@ const LandingPage = () => {
         <Scrollbars
           ref={(e) => {
             if (e !== null) {
-              setScrollbar(e)
+              setScrollbar(e);
             }
           }}
           renderView={(props) =>
@@ -115,40 +116,40 @@ const LandingPage = () => {
             )
           }
           onScroll={(e) => {
-            setTransparent(scrollbar.viewScrollTop < 100)
-            setScrolled(true)
+            setTransparent(scrollbar.viewScrollTop < 100);
+            setScrolled(true);
           }}
           autoHide
-          style={{ width: '100%', height: '100vh' }}
+          style={{ width: "100%", height: "100vh" }}
         >
           <AppBar
             style={{
-              position: 'fixed',
+              position: "fixed",
               top: 0,
               left: 0,
               right: 0,
-              backgroundColor: transparent ? 'transparent' : undefined,
-              boxShadow: transparent ? 'none' : undefined,
-              transition: 'background 1s',
+              backgroundColor: transparent ? "transparent" : undefined,
+              boxShadow: transparent ? "none" : undefined,
+              transition: "background 1s",
             }}
             position="static"
           >
             <Toolbar disableGutters>
               <div
-                style={{ cursor: 'pointer' }}
+                style={{ cursor: "pointer" }}
                 onClick={() => {
-                  scrollTo(top)
+                  scrollTo(top);
                 }}
               >
                 <img
-                  src={'/logo-up.png'}
+                  src={"/logo-up.png"}
                   alt="logo"
                   style={{
                     height: 35,
-                    justifySelf: 'center',
-                    color: 'white',
+                    justifySelf: "center",
+                    color: "white",
                     marginLeft: 12,
-                    display: transparent ? 'none' : undefined,
+                    display: transparent ? "none" : undefined,
                   }}
                 />
               </div>
@@ -159,57 +160,58 @@ const LandingPage = () => {
               </Suspense>
             </Toolbar>
           </AppBar>
-          <div style={{ width: '100%', height: '100%' }}>
+          <div style={{ width: "100%", height: "100%" }}>
             <div
               ref={(r) => r && setTop(r)}
               style={{
-                height: '100vh',
-                width: '100%',
-                backgroundColor: '#232F3E',
-                backgroundRepeat: 'no-repeat',
-                backgroundAttachment: 'fixed',
-                backgroundSize: 'cover',
-                display: 'flex',
-                justifyContent: 'center',
+                height: "100vh",
+                width: "100%",
+                backgroundColor: "#232F3E",
+                backgroundRepeat: "no-repeat",
+                backgroundAttachment: "fixed",
+                backgroundSize: "cover",
+                display: "flex",
+                justifyContent: "center",
                 minHeight: 600,
               }}
             >
-              
               <div
                 style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  flexDirection: 'column',
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column",
                 }}
               >
                 <img
-                  src={'/logo-up.png'}
+                  src={"/logo-up.png"}
                   alt="logo"
-                  style={{ height: 150, maxWidth: 280, justifySelf: 'center' }}
+                  style={{ height: 150, maxWidth: 280, justifySelf: "center" }}
                 />
 
                 <div style={{ padding: 8 }}>
                   <h3
                     style={{
-                      color: '#FEBD69',
-                      textAlign: 'center',
-                      fontWeight: 'bold',
+                      color: "#FEBD69",
+                      textAlign: "center",
+                      fontWeight: "bold",
                       fontSize: 50,
                     }}
                   >
                     <span
                       style={{
-                        color: '#820600'
+                        color: "#820600",
                       }}
-                    >YOU </span> 
-                     PORAZTO!
+                    >
+                      YOU{" "}
+                    </span>
+                    PORAZTO!
                   </h3>
 
                   <h4
                     style={{
-                      color: 'white',
-                      textAlign: 'center',
+                      color: "white",
+                      textAlign: "center",
                       fontSize: 25,
                       marginTop: 30,
                     }}
@@ -218,8 +220,8 @@ const LandingPage = () => {
                   </h4>
                   <h4
                     style={{
-                      color: 'white',
-                      textAlign: 'center',
+                      color: "white",
+                      textAlign: "center",
                       fontSize: 20,
                       marginTop: 20,
                       paddingTop: 20,
@@ -233,59 +235,62 @@ const LandingPage = () => {
               </div>
             </div>
             <div
-       style={{
-        height: '400px',
-        //width: '100%',public\asset\mivzoim10.png
-        backgroundImage: 'url(background.webp)',
-        backgroundRepeat: 'no-repeat',
-        backgroundAttachment: 'fixed',
-        backgroundPosition: 'center',
-        backgroundSize: 'cover',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-      }}
-      ></div>            
-      <div
               style={{
-                width: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
+                height: "400px",
+                //width: '100%',public\asset\mivzoim10.png
+                backgroundImage: "url(background.webp)",
+                backgroundRepeat: "no-repeat",
+                backgroundAttachment: "fixed",
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            ></div>
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
                 marginTop: -80,
               }}
             >
               <Paper
                 elevation={3}
                 style={{
-                  width: '100%',
-                  maxWidth: '90%',
+                  width: "100%",
+                  maxWidth: "90%",
                   borderRadius: 15,
                   minHeight: 400,
                 }}
               >
                 <div
                   style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    marginTop: -50,
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: -60,
                   }}
                 >
                   <Button
                     size="large"
                     style={{
+                      width: "200px",
+                      heigth: "80px",
                       margin: 30,
-                      borderRadius: '40px',
-                      fontSize: 'bold',
+                      borderRadius: "40px",
+                      fontSize: "bold",
+                      fontSize: "28px",
                     }}
                     aria-label="Start button"
                     variant="contained"
                     color="secondary"
-                    name={'signin'}
+                    name={"signin"}
                     onClick={() => {
-                      history.push('/app')
+                      history.push("/app");
                     }}
                   >
                     Start
@@ -298,9 +303,75 @@ const LandingPage = () => {
                 )}
               </Paper>
             </div>
-            <div style={{ height: 200 }}></div>
+            {/* <div style={{ height: 200 }}></div> */}
             {scrolled && (
               <Suspense fallback={<CircularProgress />}>
+                <Paper
+                  elevation={1}
+                  sx={{
+                    m: { xs: 3, sm: 12 },
+                    my: 1,
+                    p: { xs: 3, sm: 12 },
+                    bgcolor: "whitesmoke",
+                    minHeight: 400,
+                    borderRadius: 15,
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Typography align="center" variant="h3">
+                      Ready to dive?
+                    </Typography>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Typography
+                      variant="h5"
+                      component="div"
+                      color="textSecondary"
+                      style={{ margin: 16, textAlign: "center" }}
+                    >
+                      Sign up via email or Google Account and join the project!
+                    </Typography>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Button
+                      size="large"
+                      sx={{
+                        // justifyContent: 'center',
+                        // margin: '0 auto',
+                        width: "300px",
+                        heigth: "80px",
+                        margin: 3,
+                        borderRadius: "40px",
+                        fontSize: "bold",
+                        fontSize: "28px",
+                      }}
+                      aria-label="Start button"
+                      variant="contained"
+                      color="secondary"
+                      name={"signin"}
+                      onClick={() => {
+                        history.push("/app");
+                      }}
+                    >
+                      Start now!
+                    </Button>
+                  </div>
+                </Paper>
                 <Footer />
               </Suspense>
             )}
@@ -308,7 +379,7 @@ const LandingPage = () => {
         </Scrollbars>
       </React.Fragment>
     </ThemeProvider>
-  )
-}
+  );
+};
 
-export default LandingPage
+export default LandingPage;

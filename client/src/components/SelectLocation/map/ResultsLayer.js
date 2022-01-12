@@ -41,12 +41,12 @@ const ResultsLayer = ({
   const [position, setPosition] = useState(null);
   const markerRef = useRef(null);
 
-  return (<>
-    {/* <MarkerClusterGroup> */}
+  return (
+    <>
+      {/* <MarkerClusterGroup> */}
       {results &&
         results.map((locate, id) => {
-          const { road, town, country, city, state, village, zip } =
-            locate.address;
+          const { road, town, country, city, state, village, zip } = locate.address;
           const { display_name, lat, lon, place_id } = locate;
           const primeName = road ? road : display_name;
           const cityName = city
@@ -68,18 +68,17 @@ const ResultsLayer = ({
               // ref={markerRef}
               position={[lat, lon]}
               // opacity={0.6}
-              
             >
               <Popup>
                 <span
-              //   onClick={() => {
-              //   setSelectedResults(id);
-              // }}
-              >
+                //   onClick={() => {
+                //   setSelectedResults(id);
+                // }}
+                >
                   <h3>{primeName}</h3>
                   <p>{`${cityName}, ${country} ${zip ? zip : ""}`}</p>
                   <p>{`${lat}, ${lon}`}</p>
-                  <Button 
+                  <Button
                     variant="contained"
                     onClick={(id) => {
                       setSelectedResults(id);
@@ -94,7 +93,7 @@ const ResultsLayer = ({
             </Marker>
           );
         })}
-    {/* </MarkerClusterGroup> */}
+      {/* </MarkerClusterGroup> */}
     </>
   );
 };

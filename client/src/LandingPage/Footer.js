@@ -6,9 +6,10 @@ const Footer = () => {
     <React.Fragment>
       <div
        style={{
-        height: '400px',
+         bottom: '50px',
+        height: '500px',
         //width: '100%',public\asset\mivzoim10.png
-        backgroundImage: 'url(asset/images/Tefillin_in_india1.jpeg)',
+        backgroundImage: 'url(/Tefillin_in_india1.jpeg)',
         // backgroundImage: 'url(bottom.jpg)',
         backgroundRepeat: 'no-repeat',
         backgroundAttachment: 'fixed',
@@ -36,7 +37,8 @@ const Footer = () => {
         }}
         id="footer-text"
       >
-        {`© ${new Date().getFullYear()} Copyright: you-porazto org! All Rights Reserved`}
+        {`© ${new Date().getFullYear()}  you-porazto project!`}
+        <span>All Rights Reserved</span>
       </AppBar>
     </React.Fragment>
   )

@@ -1,6 +1,6 @@
 import { FETCH_ALL, FETCH_BY_SEARCH, FETCH_BY_CREATOR, FETCH_STAND, CREATE, UPDATE, DELETE, LIKE, COMMENT } from '../constants/actionTypes';
 
-export default (state = { isLoading: true, stands: [] }, action) => {
+export default (state = { isLoading: true, stands: [], myStands: [] }, action) => {
   switch (action.type) {
     case 'START_LOADING':
       return { ...state, isLoading: true };
@@ -15,7 +15,7 @@ export default (state = { isLoading: true, stands: [] }, action) => {
       };
     case FETCH_BY_SEARCH:
     case FETCH_BY_CREATOR:
-      return { ...state, stands: action.payload.data };
+      return { ...state, myStands: action.payload.data };
     case FETCH_STAND:
       return { ...state, stand: action.payload.stand };
     case LIKE:

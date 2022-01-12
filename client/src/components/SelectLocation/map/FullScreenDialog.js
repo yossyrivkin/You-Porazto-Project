@@ -11,16 +11,12 @@ import FixedLocation from "./FixedLocation";
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 
-import { StepsContext } from '../../../views/CreateStand/StepsContext'
-
+import { StepsContext } from "../../../views/CreateStand/StepsContext";
 
 export default function FullScreenDialog({
-  results,
-  selectedResults,
   editLocation,
-  setEditLocation,
-  position,
-  setPosition,
+  standData,
+  setStandData,
   positionName,
 }) {
   const { activeStep, setActiveStep } = useContext(StepsContext);
@@ -33,8 +29,8 @@ export default function FullScreenDialog({
   };
   const handleSet = (activeStep) => {
     setOpen(false);
-    console.log('activ step'  + activeStep);
-    setActiveStep(1)
+    console.log("activ step" + activeStep);
+    setActiveStep(1);
   };
 
   React.useEffect(() => {
@@ -44,7 +40,6 @@ export default function FullScreenDialog({
       setOpen(false);
     }
   }, [editLocation]);
-
 
   return (
     <div>
@@ -62,8 +57,11 @@ export default function FullScreenDialog({
             Drag the location marker inside the map to the exact spot where the
             position is located within the street.
           </DialogContentText>
-          <FixedLocation position={position} setPosition={setPosition} />
-          {position && (
+          <FixedLocation
+            standData={standData}
+            setStandData={setStandData}
+          />
+          {standData.location && (
             <>
               <DialogTitle id="responsive-dialog-title">
                 {"Current Location"}
@@ -72,12 +70,19 @@ export default function FullScreenDialog({
                 The location set for the position in the area:
                 <Typography variant="buttton" color="primary">
                   {positionName.primeName}, {positionName.cityName}
-                  <Typography variant="caption" gutterBottom> {positionName.zip} </Typography>
+                  <Typography variant="caption" gutterBottom>
+                    {" "}
+                    {positionName.zip}{" "}
+                  </Typography>
                 </Typography>
-              <Box>
-              <Typography variant="caption" color="gray" gutterBottom>Latitude: {position.lat} </Typography>
-              <Typography variant="caption" color="gray" gutterBottom>Longitude: {position.lng} </Typography>
-              </Box>
+                <Box>
+                  <Typography variant="caption" color="gray" gutterBottom>
+                    Latitude: {standData.location.lat}{" "}
+                  </Typography>
+                  <Typography variant="caption" color="gray" gutterBottom>
+                    Longitude: {standData.location.lng}{" "}
+                  </Typography>
+                </Box>
               </DialogContentText>
             </>
           )}

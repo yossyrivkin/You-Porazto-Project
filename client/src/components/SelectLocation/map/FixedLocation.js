@@ -14,8 +14,28 @@ import {
   MapConsumer,
   useMap,
 } from "react-leaflet";
+import L from "leaflet";
+import Fullscreen from "react-leaflet-fullscreen-plugin";
 
-const FixedLocation = ({  position, setPosition }) => {
+
+const editLocationIcon = L.icon({
+  iconUrl: "/edit-location_PRIMARY.png",
+  iconSize: [35, 45], // size of the icon
+  popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
+});
+
+const fulScreenOptions = {
+  position: "topleft", // change the position of the button can be topleft, topright, bottomright or bottomleft, default topleft
+  title: "Show me the fullscreen !", // change the title of the button, default Full Screen
+  titleCancel: "Exit fullscreen mode", // change the title of the button when fullscreen is on, default Exit Full Screen
+  content: null, // change the content of the button, can be HTML, default null
+  forceSeparateButton: true, // force separate button to detach from zoom buttons, default false
+  forcePseudoFullscreen: true, // force use of pseudo full screen even if full screen API is available, default false
+  fullscreenElement: false, // Dom element to render in full screen, false by default, fallback to map._container
+};
+
+
+const FixedLocation = ({ standData, setStandData }) => {
   const [draggable, setDraggable] = useState(false);
   const markerRef = useRef(null);
   const eventHandlers = useMemo(
@@ -23,7 +43,7 @@ const FixedLocation = ({  position, setPosition }) => {
       dragend() {
         const marker = markerRef.current;
         if (marker != null) {
-          setPosition(marker.getLatLng());
+          setStandData({ ...standData, location: marker.getLatLng() })
         }
       },
     }),
@@ -35,8 +55,8 @@ const FixedLocation = ({  position, setPosition }) => {
 
   return (
     <MapContainer
-      className="map-cont"
-      center={position}
+      className="map-pick-cont"
+      center={standData.location}
       zoom={18}
       scrollWheelZoom={false}
     >
@@ -45,10 +65,11 @@ const FixedLocation = ({  position, setPosition }) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <Marker
+        icon={editLocationIcon}
         draggable={true}
         eventHandlers={eventHandlers}
         ref={markerRef}
-        position={position}
+        position={standData.location}
         // opacity={0.6}
       >
         {/* <Popup>
@@ -60,7 +81,15 @@ const FixedLocation = ({  position, setPosition }) => {
           </span>
               
             </Popup> */}
-      </Marker>{" "}
+      </Marker>
+      <Fullscreen
+        eventHandlers={{
+          enterFullscreen: (event) => console.log("entered fullscreen", event),
+          exitFullscreen: (event) => console.log("exited fullscreen", event),
+        }}
+        {...fulScreenOptions}
+      />
+
     </MapContainer>
   );
 };

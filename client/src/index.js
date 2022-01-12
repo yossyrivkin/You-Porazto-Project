@@ -4,19 +4,17 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
-import { createStore, applyMiddleware, compose } from "redux";
-import thunk from "redux-thunk";
+import { PersistGate } from "redux-persist/integration/react";
+import storeConfig from './storeConfig'
 
-import { reducers } from "./reducers";
-import { ThemeProvider } from "@mui/styles";
-import theme from "./theme";
-
-const store = createStore(reducers, compose(applyMiddleware(thunk)));
+// const store = createStore(reducers, compose(applyMiddleware(thunk)));
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
+    <Provider store={storeConfig.store}>
+      <PersistGate loading={null} persistor={storeConfig.persistor}>
         <App />
+      </PersistGate>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
