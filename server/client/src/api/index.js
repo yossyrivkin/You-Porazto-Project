@@ -3,7 +3,7 @@ import axios from 'axios';
 // const mode = process.env.NODE_ENV
 // const urlMode = mode === 'development' ? process.env.REACT_APP_DEV_URL : mode === 'production' ? process.env.REACT_APP_PROD_URL : null
 
-const API = axios.create({ baseURL: "http://localhost:5000" });
+const API = axios.create({ baseURL: "http://localhost:8000" });
 // const API = axios.create({ baseURL: "https://mern-n1.herokuapp.com" });
 
 API.interceptors.request.use((req) => {

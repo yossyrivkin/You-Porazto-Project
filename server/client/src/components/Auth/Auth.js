@@ -50,9 +50,14 @@ const SignUp = () => {
   };
 
   const [loading, setLoading] = useState(false);
+  const user = JSON.parse(localStorage.getItem('profile'));
 
   useEffect(() => {
-    localStorage.clear();
+    if (!user) {
+      return
+    }
+    history.push('/app')
+    console.log(history);
     
   }, [])
 

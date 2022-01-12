@@ -6,6 +6,13 @@ const userSchema = mongoose.Schema({
   phone: { type: Number, required: false },
   password: { type: String, required: true },
   id: { type: String },
+  stands: [
+    {
+       type: mongoose.Schema.Types.ObjectId,
+       ref: 'StandModel'
+    }
+ ]
+
 });
 
 export default mongoose.model("User", userSchema);

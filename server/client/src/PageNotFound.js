@@ -11,7 +11,7 @@ const PageNotFound = () => {
     document.title = '404 | Page NOT Found'
   }, [])
   return (<>
-  <div>
+  <div className='page-not-found'>
   <a href target="_blank">
     <header className="top-header">
     </header>

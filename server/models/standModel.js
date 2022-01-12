@@ -6,8 +6,19 @@ const standSchema = mongoose.Schema({
   locationDescription: String,
   firstName: String,
   lastName: String,
+  creator: Number,
   phone: Number,
-  location: Object,
+  location: {
+    type: {
+      type: String, // Don't do `{ location: { type: String } }`
+      enum: ['Point'],
+      required: true
+    },
+    coordinates: {
+      type: [Number],
+      required: true
+    },
+  },
   tags: [String],
   selectedFile: String,
   likes: { type: [String], default: [] },
@@ -17,7 +28,11 @@ const standSchema = mongoose.Schema({
     default: new Date(),
   },
 });
+standSchema.index({'$**': 'text'});
+standSchema.index( { "location" : "2dsphere" } )
+
 
 var StandModel = mongoose.model("StandModel", standSchema);
+
 
 export default StandModel;

@@ -6,15 +6,16 @@ import StandModel from '../models/standModel.js';
 const router = express.Router();
 
 export const getStands = async (req, res) => {
-    const { page } = req.query;
+    const { page, lat, lng } = req.query;
     
     try {
-        const LIMIT = 2;
+        console.log(page);
+        console.log(lat, lng);
+        const LIMIT = 10;
         const startIndex = (Number(page) - 1) * LIMIT; // get the starting index of every page
-    
+        
         const total = await StandModel.countDocuments({});
         const stands = await StandModel.find().sort({ _id: -1 }).limit(LIMIT).skip(startIndex);
-
         res.json({ data: stands, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT)});
     } catch (error) {    
         res.status(404).json({ message: error.message });
@@ -22,30 +23,41 @@ export const getStands = async (req, res) => {
 }
 
 export const getStandsBySearch = async (req, res) => {
-    const { searchQuery, tags } = req.query;
+    const { searchQuery } = req.query;
 
     try {
-        const title = new RegExp(searchQuery, "i");
-
-        const stands = await StandModel.find({ $or: [ { title }, { tags: { $in: tags.split(',') } } ]});
+        const stands = await StandModel.find({$text: {$search: searchQuery}});
 
         res.json({ data: stands });
+
     } catch (error) {    
         res.status(404).json({ message: error.message });
     }
 }
 
 export const getStandsByCreator = async (req, res) => {
-    const { name } = req.query;
+    const userId = req.userId;
+    console.log(userId);
 
-    try {
-        const stands = await StandModel.find({ name });
+    try {   
+        const stands = await StandModel.find({ creator: userId });
 
         res.json({ data: stands });
     } catch (error) {    
         res.status(404).json({ message: error.message });
     }
 }
+// export const getStandsByCreator = async (req, res) => {
+//     const { name } = req.query;
+
+//     try {
+//         const stands = await StandModel.find({ name });
+
+//         res.json({ data: stands });
+//     } catch (error) {    
+//         res.status(404).json({ message: error.message });
+//     }
+// }
 
 export const getStand = async (req, res) => { 
     const { id } = req.params;
@@ -61,10 +73,14 @@ export const getStand = async (req, res) => {
 
 export const createStand = async (req, res) => {
     const stand = req.body;
+    const location = {
+        type: 'Point',
+        coordinates: [stand.location.lng, stand.location.lat]
+    }
+    console.log(location);
+    const newStandModel = new StandModel({ ...stand, location: location, creator: req.userId, createdAt: new Date().toISOString() })
 
-    const newStandModel = new StandModel({ ...stand, creator: req.userId, createdAt: new Date().toISOString() })
-
-    try {
+    try {   
         await newStandModel.save();
 
         res.status(201).json(newStandModel);
@@ -74,16 +90,23 @@ export const createStand = async (req, res) => {
 }
 
 export const updateStand = async (req, res) => {
+
+    const clientFormatLocation = req.body.location;
+    const location = {
+        type: 'Point',
+        coordinates: [clientFormatLocation.lng, clientFormatLocation.lat]
+    }
+
     const { id } = req.params;
-    const { city, street, locationDescription, selectedFile, firstName, lastName, phone, location } = req.body;
+    const { city, street, locationDescription, selectedFile, firstName, lastName, phone } = req.body;
     
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No stand with id: ${id}`);
 
-    const updatedStand = { city, street, locationDescription, location, selectedFile, firstName, lastName, phone, _id: id };
+    const updatedStand = { street, locationDescription, location, selectedFile, firstName, lastName, creator, phone, _id: id };
 
-    await StandModel.findByIdAndUpdate(id, updatedStand, { new: true });
+    const updatedResult = await StandModel.findByIdAndUpdate(id, updatedStand, { new: true });
 
-    res.json(updatedStand);
+    res.json(updatedResult);
 }
 
 export const deleteStand = async (req, res) => {
@@ -98,7 +121,7 @@ export const deleteStand = async (req, res) => {
 
 export const likeStand = async (req, res) => {
     const { id } = req.params;
-
+    console.log('userId: ' +req.userId);
     if (!req.userId) {
         return res.json({ message: "Unauthenticated" });
       }

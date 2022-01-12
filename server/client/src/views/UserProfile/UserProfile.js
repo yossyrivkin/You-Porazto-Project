@@ -91,8 +91,8 @@ const UserProfile = () => {
             </Typography>
             <Box
               sx={{
-                height: "580px",
-                overflowY: "auto",
+                // height: "580px",
+                // overflowY: "auto",
                 // marginRight: "30px",
                 mx: 2,
                 mb: 2,

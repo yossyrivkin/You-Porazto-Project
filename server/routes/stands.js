@@ -5,7 +5,7 @@ import { getStands, getStandsBySearch, getStandsByCreator, getStand, createStand
 const router = express.Router();
 import auth from "../middleware/auth.js";
 
-router.get('/creator', getStandsByCreator);
+router.get('/creator', auth, getStandsByCreator);
 router.get('/search', getStandsBySearch);
 router.get('/', getStands);
 router.get('/:id', getStand);

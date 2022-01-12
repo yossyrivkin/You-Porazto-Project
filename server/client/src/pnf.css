@@ -11,17 +11,12 @@
   -webkit-text-size-adjust: none;
 }
 
-html, body {
-  height: 100%;
-  overflow: hidden;
-}
-
-body {
-  padding: 0;
-  margin: 0;
-  background: #181828;
-  font-size: 14px;
-  line-height: 1;
+.page-not-found {
+  padding: 0!important;
+  margin: 0!important;
+  background:  #181828 !important;
+  font-size: 14px!important;
+  line-height: 1!important;
 }
 
 label {
@@ -42,7 +37,7 @@ input, select, button, textarea {
   font-size: 100%;
 }
 
-html, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, input {
@@ -423,6 +418,12 @@ button {
     z-index: 1;
     border-radius: 90px 90px 0px 0px;
 }
+
+.page-not-found {
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
 /* 2.3. END Lamp */
 /***********************************
 			/* 2. END CONTENT */
@@ -482,8 +483,8 @@ button {
   }
 }
 @media (max-width: 750px) {
-  body, html {
-    max-height: 100vh;
+  .page-not-found {
+    max-height: 100vh!important;
   }
    .error__content {
     position: static;
